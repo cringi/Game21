@@ -145,7 +145,7 @@ public class Game21 {
 			System.out.println(RESULT_WIN_COMPUTER);
 		}
 		else if (PLAYER_USER_SCORE < MAX_TOTAL && MAX_TOTAL < PLAYER_COMPUTER_SCORE) {
-			// CASE: The computer drew over 21, but the compute did not.
+			// CASE: The computer drew over 21, but the user did not.
 			System.out.println(RESULT_WIN_USER);
 		}
 		else if (PLAYER_USER_SCORE == MAX_TOTAL) {
