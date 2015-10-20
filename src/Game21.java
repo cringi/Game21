@@ -18,6 +18,7 @@ public class Game21 {
 
 	// Initiate variables to be used later.
 	private static int CARDS_REQUESTED, PLAYER_USER_SCORE = 0, PLAYER_COMPUTER_SCORE = 0;
+	private static int PLAYER_WINS = 0, COMPUTER_WINS = 0, TOTAL_DRAWS = 0;
 	private static List<Integer> playerCards = new ArrayList<Integer>();
 	private static List<Integer> pcCards = new ArrayList<Integer>();
 
@@ -77,6 +78,8 @@ public class Game21 {
 		}
 		else {
 			// If they entered n or something else, we're bailing out.
+			System.out.printf("%nYour Wins: %d%nComputer Wins: %d%nDraws: %d%n",
+							PLAYER_WINS, COMPUTER_WINS, TOTAL_DRAWS);
 			System.exit(0);
 		}
 	}
@@ -134,42 +137,57 @@ public class Game21 {
 	private static void reportWinner() {
 		if (PLAYER_USER_SCORE == PLAYER_COMPUTER_SCORE) {
 			// CASE: Both players have tied. It's a draw.
-			System.out.println(RESULT_DRAW);
+			reportDraw();
 		}
 		else if (PLAYER_USER_SCORE > MAX_TOTAL && MAX_TOTAL < PLAYER_COMPUTER_SCORE) {
 			// CASE: Both players drew over 21. It's a draw.
-			System.out.println(RESULT_DRAW);
+			reportDraw();
 		}
 		else if (PLAYER_USER_SCORE > MAX_TOTAL && MAX_TOTAL > PLAYER_COMPUTER_SCORE) {
 			// CASE: The user drew over 21, but the computer did not.
-			System.out.println(RESULT_WIN_COMPUTER);
+			reportComputerWin();
 		}
 		else if (PLAYER_USER_SCORE < MAX_TOTAL && MAX_TOTAL < PLAYER_COMPUTER_SCORE) {
 			// CASE: The computer drew over 21, but the user did not.
-			System.out.println(RESULT_WIN_USER);
+			reportPlayerWin();
 		}
 		else if (PLAYER_USER_SCORE == MAX_TOTAL) {
 			// CASE: The user scored 21.
 			// Why is this safe without checking the computer's score? We already have
 			// a statement that looks to see if they've tied. We've already established that they haven't.
-			System.out.println(RESULT_WIN_USER);
+			reportPlayerWin();
 		}
 		else if (PLAYER_COMPUTER_SCORE == MAX_TOTAL) {
 			// CASE: The computer scored 21.
-			System.out.println(RESULT_WIN_COMPUTER);
+			reportComputerWin();
 		}
 		else {
 			// They didn't match one of our cases. Now we have to get dirty.
 			// We've already established they both scored under 21.
 			if (PLAYER_USER_SCORE > PLAYER_COMPUTER_SCORE) {
 				// The player won!
-				System.out.println(RESULT_WIN_USER);
+				reportPlayerWin();
 			}
 			else {
 				// [hopefully] it's safe to assume that the computer has won at this point.
-				System.out.println(RESULT_WIN_COMPUTER);
+				reportComputerWin();
 			}
 		}
 		queryReplay();
+	}
+
+	private static void reportDraw() {
+		System.out.println(RESULT_DRAW);
+		TOTAL_DRAWS++;
+	}
+
+	private static void reportPlayerWin() {
+		System.out.println(RESULT_WIN_USER);
+		PLAYER_WINS++;
+	}
+
+	private static void reportComputerWin() {
+		System.out.println(RESULT_WIN_COMPUTER);
+		COMPUTER_WINS++;
 	}
 }
